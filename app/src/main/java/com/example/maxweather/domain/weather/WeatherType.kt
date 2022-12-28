@@ -1,4 +1,4 @@
-package com.example.maxweather.domain
+package com.example.maxweather.domain.weather
 
 import androidx.annotation.DrawableRes
 import com.example.maxweather.R

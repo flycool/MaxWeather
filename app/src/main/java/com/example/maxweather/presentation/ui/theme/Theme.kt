@@ -1,4 +1,4 @@
-package com.example.maxweather.ui.theme
+package com.example.maxweather.presentation.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
@@ -8,13 +8,13 @@ import androidx.compose.runtime.Composable
 
 private val DarkColorPalette = darkColors(
     primary = Purple200,
-    primaryVariant = Purple700,
+    primaryVariant = DarkBlue,
     secondary = Teal200
 )
 
 private val LightColorPalette = lightColors(
-    primary = Purple500,
-    primaryVariant = Purple700,
+    primary = DarkBlue,
+    primaryVariant = DarkBlue,
     secondary = Teal200
 
     /* Other default colors to override
