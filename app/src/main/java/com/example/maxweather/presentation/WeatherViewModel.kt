@@ -9,6 +9,9 @@ import com.example.maxweather.domain.Resource
 import com.example.maxweather.domain.location.LocationTracker
 import com.example.maxweather.domain.repository.WeatherRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,15 +21,18 @@ class WeatherViewModel @Inject constructor(
     private val locationTracker: LocationTracker
 ) : ViewModel() {
 
-    var state by mutableStateOf(WeatherState())
-        private set
+
+    private val _state = MutableStateFlow(WeatherState())
+    val state = _state.asStateFlow()
 
     fun loadWeatherInfo() {
         viewModelScope.launch {
-            state = state.copy(
-                isLoading = true,
-                error = null
-            )
+            _state.update {
+                it.copy(
+                    isLoading = true,
+                    error = null
+                )
+            }
 //            locationTracker.getCurrentLocation()?.let { location ->
 //                val result =
 //                    weatherRepository.getWeatherData(location.latitude, location.longitude)
@@ -57,18 +63,22 @@ class WeatherViewModel @Inject constructor(
                 weatherRepository.getWeatherData(53.0, 23.0)
             when (result) {
                 is Resource.Success -> {
-                    state = state.copy(
-                        weatherInfo = result.data,
-                        isLoading = false,
-                        error = null
-                    )
+                    _state.update {
+                        it.copy(
+                            weatherInfo = result.data,
+                            isLoading = false,
+                            error = null
+                        )
+                    }
                 }
                 is Resource.Error -> {
-                    state = state.copy(
-                        weatherInfo = null,
-                        isLoading = false,
-                        error = result.message
-                    )
+                    _state.update {
+                        it.copy(
+                            weatherInfo = null,
+                            isLoading = false,
+                            error = result.message
+                        )
+                    }
                 }
             }
 

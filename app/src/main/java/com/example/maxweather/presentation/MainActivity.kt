@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -51,26 +53,27 @@ class MainActivity : ComponentActivity() {
                 Box(
                     modifier = Modifier.fillMaxSize()
                 ) {
+                    val weatherState by viewModel.state.collectAsState()
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
                             .background(DarkBlue),
                     ) {
                         WeatherCard(
-                            state = viewModel.state,
+                            state = weatherState,
                             backgroundColor = DeepBlue,
                         )
                         Spacer(modifier = Modifier.height(16.dp))
-                        WeatherForecast(state = viewModel.state)
+                        WeatherForecast(state = weatherState)
                     }
 
-                    if(viewModel.state.isLoading) {
+                    if(weatherState.isLoading) {
                         CircularProgressIndicator(
                             modifier = Modifier.align(Alignment.Center),
                             color = Color.White
                         )
                     }
-                    viewModel.state.error?.let { error ->
+                    weatherState.error?.let { error ->
                         Text(
                             text = error,
                             color = Color.Red,
