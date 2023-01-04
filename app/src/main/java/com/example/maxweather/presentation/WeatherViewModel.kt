@@ -57,8 +57,10 @@ class WeatherViewModel @Inject constructor(
 //                )
 //            }
 
+            val latitude = 25.131543
+            val longitude = 113.365524
             val result =
-                weatherRepository.getWeatherData(53.0, 23.0)
+                weatherRepository.getWeatherData(latitude, longitude)
             when (result) {
                 is Resource.Success -> {
                     _state.update {
